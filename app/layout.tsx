@@ -1,11 +1,16 @@
-import "./globals.css"
-import { ReactNode } from "react"
-import localFont from "next/font/local"
+import "./globals.css";
+import { ReactNode } from "react";
+import localFont from "next/font/local";
 
-import { Toaster } from "@/components/ui/sonner"
-import { TooltipProvider } from "@/components/ui/tooltip"
 
-import { ThemeProvider } from "./providers"
+
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
+
+
+import { ThemeProvider } from "./providers";
+
 
 export const fontSans = localFont({
   src: "../fonts/haskoy.ttf",
@@ -13,31 +18,32 @@ export const fontSans = localFont({
 })
 
 const defaultUrl = process.env.VERCEL_URL
-  ? `https://www.nextjs.design`
+  ? `https://www.thousandagents.com`
   : "http://localhost:3000"
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Design x Engineering Directory - Discover Top Web Dev Tools",
+  title: "Thousand AI Agents - Discover Smart AI Solutions",
   description:
-    "Explore a curated directory of free web development tools for designers and engineers. Find resources for JavaScript, Tailwind CSS, and more!",
+    "Explore a curated directory of AI agents designed to streamline tasks, enhance productivity, and transform workflows. Discover tools for automation, customer support, and more!",
   keywords:
-    "Design, Engineering, Web Development, JavaScript, Tailwind CSS, Supabase, Free Tools, Design Engineering",
+    "AI Agents, Automation, Productivity, Task Management, AI Directory, Smart Tools, AI Solutions, Workflow Automation",
   structuredData: {
     "@context": "http://schema.org",
     "@type": "WebSite",
-    name: "Design x Engineering Directory",
-    url: "https://www.nextjs.design/",
+    name: "Thousand AI Agents",
+    url: "https://www.nextjs.ai/",
     description:
-      "A free directory of awesome web development tools for design and engineering professionals.",
+      "A comprehensive directory of AI agents offering smart solutions for various tasks and industries. Streamline your workflow with ease!",
   },
   socialMediaTags: {
-    "og:title": "Design x Engineering Directory - Discover Top Web Dev Tools",
+    "og:title": "Thousand AI Agents - Discover Smart AI Solutions",
     "og:description":
-      "Explore a curated directory of free web development tools for designers and engineers. Find resources for JavaScript, Tailwind CSS, and more!",
+      "Explore a curated directory of AI agents designed to streamline tasks, enhance productivity, and transform workflows. Discover tools for automation, customer support, and more!",
     "twitter:card": "summary_large_image",
   },
 }
+
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

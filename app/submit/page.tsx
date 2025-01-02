@@ -1,4 +1,4 @@
-import { ReactElement } from "react"
+import { ReactElement, Suspense } from "react"
 import { redirect } from "next/navigation"
 import { createClient } from "@/db/supabase/server"
 
@@ -10,23 +10,21 @@ import SubmitTool from "./form"
 
 export default async function ProtectedSubmitPage(): Promise<ReactElement> {
   let filters = await getCachedFilters()
-  const supabase = createClient()
+  //const supabase = createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
 
-  if (!user) {
-    return redirect("/login")
-  }
 
   return (
+
     <>
+    <Suspense>
+
       <NavSidebar
         categories={filters.categories}
         labels={filters.labels}
         tags={filters.tags}
       />
+    </Suspense>
 
       <div className="flex flex-col md:flex-row items-start justify-center py-12 px-4 md:px-0">
         <div className="flex flex-col items-start justify-center gap-2 md:pl-48">

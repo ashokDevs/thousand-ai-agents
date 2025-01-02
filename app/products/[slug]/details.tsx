@@ -62,12 +62,12 @@ export const ProductDetails = ({ product }: { product: Product }) => (
             <Blocks className="stroke-1 size-8" />{" "}
             <span className="flex-wrap">{product.categories}</span>
           </CardDescription>
-          {product.tags.length >= 1 && (
+          {/* {product.tags.length >= 1 && (
             <CardDescription className="md:text-xl text-lg tracking-tight text-neutral-800 text-balance dark:text-neutral-400 flex gap-2 items-center ">
               <Tag className="stroke-1 size-8" />{" "}
               <span className="flex-wrap">{product.tags.join(", ")}</span>
             </CardDescription>
-          )}
+          )} */}
 
           <Link
             href={`/products`}

@@ -1,18 +1,21 @@
-"use server"
+"use server";
 
-import "server-only"
-import { revalidatePath, revalidateTag } from "next/cache"
-import { createClient } from "@/db/supabase/server"
-import { anthropic } from "@ai-sdk/anthropic"
-import { generateObject } from "ai"
+import "server-only";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { createClient } from "@/db/supabase/server";
+import { anthropic } from "@ai-sdk/anthropic";
+import { generateObject } from "ai";
 
-import { enrichmentSchema, schema } from "./schema"
+
+
+import { enrichmentSchema, schema } from "./schema";
+
 
 // Configuration object
 const config = {
   aiEnrichmentEnabled: false,
   aiModel: anthropic("claude-3-haiku-20240307"), // You can change this to another model if needed
-  storageBucket: "product-logos",
+  storageBucket: "logo",
   cacheControl: "3600",
   allowNewTags: true,
   allowNewLabels: true,
@@ -37,6 +40,36 @@ function isErrorWithMessage(error: unknown): error is Error {
 
 // Uploads the logo file to the storage bucket
 async function uploadLogoFile(
+  db: any,
+  logoFile: File,
+  codename: string
+): Promise<string> {
+  const fileExt = logoFile.name.split(".").pop()
+  const fileName = `${Date.now()}.${fileExt}`
+  const filePath = `${codename}/${fileName}`
+  const fileBuffer = await logoFile.arrayBuffer()
+
+  const { error: uploadError } = await db.storage
+    .from(config.storageBucket)
+    .upload(filePath, Buffer.from(fileBuffer), {
+      cacheControl: config.cacheControl,
+      upsert: false,
+    })
+
+  if (uploadError) {
+    console.error(`Error uploading file: ${uploadError.message}`)
+    throw new Error(uploadError.message)
+  }
+
+  const publicUrlResponse = db.storage
+    .from(config.storageBucket)
+    .getPublicUrl(filePath)
+  console.log(
+    `Logo file uploaded. Public URL: ${publicUrlResponse.data.publicUrl}`
+  )
+  return publicUrlResponse.data.publicUrl
+}
+async function testuploadLogoFile(
   db: any,
   logoFile: File,
   codename: string
@@ -112,13 +145,13 @@ export async function onSubmitToolAction(
   }
 
   try {
-    const { data: authData, error: authError } = await db.auth.getUser()
+   /*  const { data: authData, error: authError } = await db.auth.getUser()
     if (authError || !authData.user) {
       console.error("User authentication failed")
       throw new Error("User authentication failed")
     }
     const user = authData.user
-
+ */
     let logoUrl = ""
     const logoFile = formData.get("images") as File
     if (logoFile) {
@@ -171,11 +204,24 @@ export async function onSubmitToolAction(
       description: parsed.data.description,
       logo_src: logoUrl,
       categories: parsed.data.categories,
-      user_id: user.id,
+      approved: true,
+      //tags,
+      labels,
+    }
+    /* const testData = {
+      full_name: "dong",
+      email:'ashok177748@gmail.com',
+      twitter_handle: "https://www.x.com/indieashok",
+      product_website: "thousandagents.com",
+      codename: "pong",
+      punchline:" parsed.data.punchline,",
+      description: "parsed.data.description",
+      logo_src: "logoUrl",
+      categories: "parsed.data.categories",
       approved: true,
       tags,
       labels,
-    }
+    } */
 
     console.log("Inserting product data")
     const { error } = await db.from("products").insert([productData]).select()
