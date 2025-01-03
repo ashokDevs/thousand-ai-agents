@@ -1,16 +1,13 @@
-import "./globals.css";
-import { ReactNode } from "react";
-import localFont from "next/font/local";
+import "./globals.css"
+import { ReactNode } from "react"
+import localFont from "next/font/local"
+import Head from "next/head"
+import Script from "next/script"
 
+import { Toaster } from "@/components/ui/sonner"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
-
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-
-
-
-import { ThemeProvider } from "./providers";
-
+import { ThemeProvider } from "./providers"
 
 export const fontSans = localFont({
   src: "../fonts/haskoy.ttf",
@@ -44,10 +41,21 @@ export const metadata = {
   },
 }
 
-
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${fontSans.variable} font-sans  `}>
+      <Head>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-VYQRYL1JV2"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">{`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VYQRYL1JV2')`}</Script>
+      </Head>
       <body>
         <ThemeProvider
           attribute="class"
