@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 import localFont from "next/font/local"
 import Head from "next/head"
 import Script from "next/script"
-
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
@@ -45,16 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${fontSans.variable} font-sans  `}>
       <Head>
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-VYQRYL1JV2"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">{`
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-VYQRYL1JV2')`}</Script>
+       <GoogleAnalytics gaId="G-VYQRYL1JV2" />
       </Head>
       <body>
         <ThemeProvider
