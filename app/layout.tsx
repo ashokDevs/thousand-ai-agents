@@ -1,13 +1,20 @@
-import "./globals.css"
-import { ReactNode } from "react"
-import localFont from "next/font/local"
-import Head from "next/head"
-import Script from "next/script"
-import { GoogleAnalytics } from '@next/third-parties/google'
+import "./globals.css";
+import { ReactNode } from "react";
+import localFont from "next/font/local";
+import Head from "next/head";
+import Script from "next/script";
+import { GoogleAnalytics } from '@next/third-parties/google';
+import { Analytics } from "@vercel/analytics/react";
+
+
+
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
-import { ThemeProvider } from "./providers"
+
+
+import { ThemeProvider } from "./providers";
+
 
 export const fontSans = localFont({
   src: "../fonts/haskoy.ttf",
